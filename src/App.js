@@ -6,7 +6,7 @@ function App() {
   const [location, setLocation] = useState('');
   
   // const url = `https://api.openweathermap.org/data/2.5/weather?lat=44.6458°&lon=63.5778&appid=76ac4f25292bc05632d373853bb4fc86`;
-  const newUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=76ac4f25292bc05632d373853bb4fc86`;
+  const newUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=imperial&appid=76ac4f25292bc05632d373853bb4fc86`;
 
   const searchLocation = (event) => {
     if(event.key === 'Enter'){
@@ -33,32 +33,36 @@ function App() {
       <div className="container">
         <div className="top">
           <div className="location">
-            <p>
-              Halifax
-            </p>
+            {data?.name ? <p>{data.name}</p> : null}
           </div>
           <div className="temp">
-            <h1>60° F</h1>
+            { data?.main ? <h1>{data.main.temp.toFixed()}°F</h1> : null }
           </div>
           <div className="description">
-            <p>Clouds</p>
+            {data?.weather ? <p>{data.weather[0].main}</p> : null}
           </div>
           <div></div>
         </div>
+
+        {
+          data?.name != undefined && 
           <div className="bottom">
-            <div className="feels">
-              <p className="bold">65° F</p>
-              <p>Feels like</p>
-            </div>
-            <div className="humidity">
-              <p className="bold">20%</p>
-              <p>Humidity</p>
-            </div>
-            <div className="wind">
-              <p className="bold">12 MPH</p>
-              <p>Wind Speed</p>
-            </div>
+          <div className="feels">
+            {data?.main ? <p className="bold">{data.main.feels_like.toFixed()}°F</p> : null}
+            <p>Feels like</p>
           </div>
+          <div className="humidity">
+            {data?.main ? <p className="bold">{data.main.humidity}%</p> : null}
+            <p>Humidity</p>
+          </div>
+          <div className="wind">
+            {data?.wind ? <p className="bold">{data.wind.speed.toFixed()} MPH</p> : null}
+            <p className="bold">12 MPH</p>
+            <p>Wind Speed</p>
+          </div>
+        </div>
+        }
+
       </div>      
     </div>
   );
